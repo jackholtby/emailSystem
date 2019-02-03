@@ -1,0 +1,27 @@
+body
+{
+  padding-top: 10px;
+}
+
+main
+{
+  display: grid;
+  grid-template-columns: 100%;
+  justify-items: center;
+  margin-top: 10px;
+  background-color: ;
+  padding-top: 20px;
+  border-radius: 6px;
+  font-family: open-sans, sans-serif;
+}
+
+#flex-container
+{
+  grid-template-columns: 100%;
+  justify-content: center;
+  background-color: #AAA;
+	color: white;
+	margin-top: 10%;
+	margin-left: 20%;
+	margin-right: 20%;
+}
