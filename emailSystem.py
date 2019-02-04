@@ -55,6 +55,6 @@ emailEntry = '''
 @app.route('/', methods=['GET'])
 def main():
     '''Main Dashboard Page.'''
-    emails = "".join(emailEntry % (user_id, email_content) for user_id, email_content in get_emails())
+    emails = "".join(emailEntry % (user_id, email_content, date_sent) for user_id, email_content, date_sent in get_emails())
     html = dashboardWrap & emails
     return html
