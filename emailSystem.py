@@ -7,10 +7,46 @@ import time
 
 app = Flask(__name__)
 
-dashboardStart = '''
+dashboardWrap = '''
 
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+  <meta name="description" content="Email System Dashboard">
+  <meta name="author" content="Jack Holtby">
+
+  <link rel="stylesheet" href="main.css?v=1.0">
+
+</head>
+
+<body>
+
+  <div id="flex-container">
+
+    <h1>
+      Dashboard
+    </h1>
+
+    <table>
+    <!-- email entries will go here -->
+    %s
+
+    </table>
+
+  </div >
+<!-- <script src="js/scripts.js"></script> -->
+</body>
+</html>
 '''
 
-dashbaoardEnd = '''
-
+emailEntry = '''
+<tr class="email">
+<td>%s</td>
+<td>%s</td>
+<td>%s</td>
+</tr>
 '''

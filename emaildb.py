@@ -10,3 +10,5 @@ def updateStatus():
     # If user is 'Active' & last login more than 4 days ago: Mark "Not Responsive"
     # If user is 'Not responsive' & last login more than 2 days ago: Mark "Inactive"
     # If user is 'Not responsive' & last login less than 2 days ago: Mark "Active"
+
+    
