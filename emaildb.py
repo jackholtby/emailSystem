@@ -21,3 +21,5 @@ def getEmails():
     posts = c.fetchall()
     db.close()
     return posts
+
+def add_email():
