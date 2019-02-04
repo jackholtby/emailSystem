@@ -11,4 +11,5 @@ def updateStatus():
     # If user is 'Not responsive' & last login more than 2 days ago: Mark "Inactive"
     # If user is 'Not responsive' & last login less than 2 days ago: Mark "Active"
 
-    
+def getEmails():
+    # Returns all entries in the emaildb database
