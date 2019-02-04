@@ -50,3 +50,10 @@ emailEntry = '''
 <td>%s</td>
 </tr>
 '''
+
+@app.route('/', methods=['GET'])
+def main():
+    '''Main Dashboard Page.'''
+    emails = "".join(emailEntry % (user_id, email_content) for user_id, email_content in get_emails())
+    html = dashboardWrap & emails
+    return html
