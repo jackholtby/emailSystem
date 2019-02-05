@@ -3,10 +3,23 @@
 from flask import Flask, request, redirect, url_for
 import schedule
 import time
+import smtplib
+from email.message import EmailMessage
 from emaildb import getEmails, updateStatus, addEmail
 # from emaildb import updateStatus
 
 app = Flask(__name__)
+
+def sendEmail(content, recipient):
+    msg = EmailMessage()
+    msg.set_content(content)
+    msg['Subject'] = 'From The Admin'
+    msg['From'] = 'admin@cooladminemail.com'
+    msg['To'] = recipient
+
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
 
 dashboardWrap = '''\
 <!DOCTYPE html>
@@ -19,7 +32,7 @@ dashboardWrap = '''\
   <meta name="description" content="Email System Dashboard">
   <meta name="author" content="Jack Holtby">
 
-<!--  <link rel="stylesheet" href="main.css?v=1.0"> -->
+<link rel="stylesheet" href="main.css?v=1.0">
 
 </head>
 
@@ -31,9 +44,14 @@ dashboardWrap = '''\
       Dashboard
     </h1>
 
-    <table>
-    <!-- email entries will go here -->
+    <table class="email" border="1">
+    <tr>
+    <th> User ID</th>
+    <th> Email Contents </th>
+    <th> Date Sent </th>
+    </tr>
 
+    <!-- email entries will go here -->
     %s
 
     </table>
@@ -44,7 +62,7 @@ dashboardWrap = '''\
 '''
 
 emailEntry = '''\
-<tr class="email">
+<tr>
 <td> %s </td>
 <td> %s </td>
 <td> %s </td>
