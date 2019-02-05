@@ -39,15 +39,16 @@ def sendAllEmails():
     c = db.cursor()
     c.execute("SELECT * FROM users;")
     for row in c:
-        if row[3] == 'active':
+        emailSent = row[].strftime("%Y-%m-%d %H:%M:%S")
+        emailSent = datetime.strptime(emailSent, "%Y-%m-%d %H:%M:%S")
+        now = datetime.now();
+        difference = now - emailSent
+        difference = difference.days
+        if row[3] == 'active' and difference > 0:
             sendEmail(activeEmail,row[2], row[0])
 
         elif row[3] == 'not responsive':
-            emailSent = row[4].strftime("%Y-%m-%d %H:%M:%S")
-            emailSent = datetime.strptime(emailSent, "%Y-%m-%d %H:%M:%S")
-            now = datetime.now();
-            difference = now - emailSent
-            difference = difference.days
+
             if difference == 0 or difference == 3:
                 sendEmail(notResponsiveEmail,row[2])
                 addEmail(row[0], notResponsiveEmail)
