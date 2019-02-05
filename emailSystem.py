@@ -5,21 +5,10 @@ import schedule
 import time
 import smtplib
 from email.message import EmailMessage
-from emaildb import getEmails, updateStatus, addEmail
+from emaildb import getEmails, updateStatus, addEmail, sendEmails
 # from emaildb import updateStatus
 
 app = Flask(__name__)
-
-def sendEmail(content, recipient):
-    msg = EmailMessage()
-    msg.set_content(content)
-    msg['Subject'] = 'From The Admin'
-    msg['From'] = 'admin@cooladminemail.com'
-    msg['To'] = recipient
-
-    s = smtplib.SMTP('localhost')
-    s.send_message(msg)
-    s.quit()
 
 dashboardWrap = '''\
 <!DOCTYPE html>

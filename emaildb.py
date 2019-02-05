@@ -5,6 +5,17 @@ from datetime import datetime
 # Set the database to access
 DBNAME = "emaildb"
 
+def sendEmail(content, recipient):
+    msg = EmailMessage()
+    msg.set_content(content)
+    msg['Subject'] = 'From The Admin'
+    msg['From'] = 'admin@cooladminemail.com'
+    msg['To'] = recipient
+
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+
 # Update the status of all users in the users table
 def updateStatus():
     # Updates the state value for each user based on the following rules:
@@ -15,6 +26,7 @@ def updateStatus():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute('SELECT * FROM users')
+
     updateNotResponsive = '''
     UPDATE users
     SET status = 'not responsive'
@@ -46,7 +58,6 @@ def updateStatus():
 # Get all the emails from the emails table
 def getEmails():
     # Returns all entries in the emaildb database
-    """Returns all emails from emaildb """
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute("SELECT user_id, email_content, date_sent FROM emails ORDER BY date_sent DESC")
@@ -55,8 +66,9 @@ def getEmails():
     db.close()
     return emails
 
-# Insert a new email into the emails table.
-# Paramaters: user_id and email_contents.
+# Function addEmail():
+# Inserts a new email into the emails table.
+# Paramaters: user_id, email_contents.
 def addEmail(user_id, email_content):
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
