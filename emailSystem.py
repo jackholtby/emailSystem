@@ -66,9 +66,7 @@ emailEntry = '''\
 def main():
     '''Main Dashboard Page.'''
     emails = "".join(emailEntry % (user_id, email_content, date_sent) for user_id, email_content, date_sent in getEmails())
-    print('emails variable content here:', emails)
     html = dashboardWrap % emails
-    print(html)
     return html
 
 if __name__ == '__main__':

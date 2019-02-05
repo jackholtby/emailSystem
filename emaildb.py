@@ -69,7 +69,6 @@ def getEmails():
     c = db.cursor()
     c.execute("SELECT user_id, email_content, date_sent FROM emails ORDER BY date_sent DESC")
     emails = c.fetchall()
-    print(emails)
     db.close()
     return emails
 
