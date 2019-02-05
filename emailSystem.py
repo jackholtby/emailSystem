@@ -3,16 +3,17 @@
 from flask import Flask, request, redirect, url_for
 import schedule
 import time
-import smtplib
-from email.message import EmailMessage
-from emaildb import getEmails, updateStatus, addEmail, allEmails, sendEmail
+from emaildb import getEmails, updateStatus, sendAllEmails, sendEmail
 # from emaildb import updateStatus
 
 app = Flask(__name__)
 
+
 def daily():
-    updateStatus()
-    allEmails()
+    # updateStatus()
+    sendAllEmails()
+
+daily()
 
 dashboardWrap = '''\
 <!DOCTYPE html>
@@ -39,7 +40,7 @@ dashboardWrap = '''\
 
     <table class="email" border="1">
     <tr>
-    <th> User ID</th>
+    <th> Recipient User ID</th>
     <th> Email Contents </th>
     <th> Date Sent </th>
     </tr>
