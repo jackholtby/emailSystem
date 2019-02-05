@@ -8,8 +8,7 @@ from emaildb import getEmails, updateStatus, addEmail
 
 app = Flask(__name__)
 
-dashboardWrap = '''
-
+dashboardWrap = '''\
 <!DOCTYPE html>
 
 <html lang="en">
@@ -20,7 +19,7 @@ dashboardWrap = '''
   <meta name="description" content="Email System Dashboard">
   <meta name="author" content="Jack Holtby">
 
-  <link rel="stylesheet" href="main.css?v=1.0">
+<!--  <link rel="stylesheet" href="main.css?v=1.0"> -->
 
 </head>
 
@@ -34,21 +33,21 @@ dashboardWrap = '''
 
     <table>
     <!-- email entries will go here -->
+
     %s
 
     </table>
 
   </div >
-<!-- <script src="js/scripts.js"></script> -->
 </body>
 </html>
 '''
 
-emailEntry = '''
+emailEntry = '''\
 <tr class="email">
-<td>%s</td>
-<td>%s</td>
-<td>%s</td>
+<td> %s </td>
+<td> %s </td>
+<td> %s </td>
 </tr>
 '''
 
@@ -56,9 +55,10 @@ emailEntry = '''
 def main():
     '''Main Dashboard Page.'''
     emails = "".join(emailEntry % (user_id, email_content, date_sent) for user_id, email_content, date_sent in getEmails())
+    print('emails variable content here:', emails)
     html = dashboardWrap % emails
+    print(html)
     return html
-
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8000)
