@@ -3,7 +3,7 @@
 from flask import Flask, request, redirect, url_for
 import schedule
 import time
-from emaildb import getEmails, updateStatus
+from emaildb import getEmails, updateStatus, addEmail
 # from emaildb import updateStatus
 
 app = Flask(__name__)
@@ -55,6 +55,10 @@ emailEntry = '''
 @app.route('/', methods=['GET'])
 def main():
     '''Main Dashboard Page.'''
-    emails = "".join(emailEntry % (user_id, email_content, date_sent) for user_id, email_content, date_sent in get_emails())
-    html = dashboardWrap & emails
+    emails = "".join(emailEntry % (user_id, email_content, date_sent) for user_id, email_content, date_sent in getEmails())
+    html = dashboardWrap % emails
     return html
+
+
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=8000)

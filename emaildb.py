@@ -49,14 +49,14 @@ def getEmails():
     """Returns all emails from emaildb """
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute("select user_id, email_content, date_sent from emails order by time desc")
+    c.execute("SELECT user_id, email_content, date_sent FROM emails ORDER BY date_sent DESC")
     emails = c.fetchall()
     db.close()
     return emails
 
 # Insert a new email into the emails table.
 # Paramaters: user_id and email_contents.
-def add_email(user_id, email_content):
+def addEmail(user_id, email_content):
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute("INSERT INTO emails (user_id, email_content, date_sent)", (bleach.clean(content),))
