@@ -5,7 +5,7 @@ import schedule
 import time
 import smtplib
 from email.message import EmailMessage
-from emaildb import getEmails, updateStatus, addEmail, sendEmails
+from emaildb import getEmails, updateStatus, addEmail, allEmails, sendEmail
 # from emaildb import updateStatus
 
 app = Flask(__name__)
