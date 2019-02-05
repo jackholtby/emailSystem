@@ -10,6 +10,10 @@ from emaildb import getEmails, updateStatus, addEmail, allEmails, sendEmail
 
 app = Flask(__name__)
 
+def daily():
+    updateStatus()
+    allEmails()
+
 dashboardWrap = '''\
 <!DOCTYPE html>
 
