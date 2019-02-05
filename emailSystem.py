@@ -1,20 +1,20 @@
 # A daily email system.
 
 from flask import Flask, request, redirect, url_for
-import schedule
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 import time
 from emaildb import getEmails, updateStatus, sendAllEmails, sendEmail
-# from emaildb import updateStatus
 
 app = Flask(__name__)
 
-
+# The function to send emails and update the database
 def daily():
-    # updateStatus()
+    updateStatus()
     sendAllEmails()
+    # refresh dashboard
 
-daily()
-
+# The html for the dashboard for viewing the emails sent.
 dashboardWrap = '''\
 <!DOCTYPE html>
 
@@ -35,14 +35,14 @@ dashboardWrap = '''\
   <div id="flex-container">
 
     <h1>
-      Dashboard
+      Admin Email Dashboard
     </h1>
 
     <table class="email" border="1">
     <tr>
     <th> Recipient User ID</th>
     <th> Email Contents </th>
-    <th> Date Sent </th>
+    <th> Date & Time Sent </th>
     </tr>
 
     <!-- email entries will go here -->
@@ -55,6 +55,7 @@ dashboardWrap = '''\
 </html>
 '''
 
+# Email entry for dashboard. This is inserted into the dashboard html above.
 emailEntry = '''\
 <tr>
 <td> %s </td>
@@ -62,6 +63,12 @@ emailEntry = '''\
 <td> %s </td>
 </tr>
 '''
+
+scheduler = BackgroundScheduler()
+
+scheduler.add_job(daily, 'cron', day='*', hour='18')
+
+scheduler.start()
 
 @app.route('/', methods=['GET'])
 def main():
