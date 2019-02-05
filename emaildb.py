@@ -59,6 +59,6 @@ def getEmails():
 def add_email(user_id, email_content):
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute("INSERT INTO emails (user_id, email_content, date_sent)", (%s, bleach.clean(content),))
+    c.execute("INSERT INTO emails (user_id, email_content, date_sent)", (bleach.clean(content),))
     db.commit();
     db.close()
