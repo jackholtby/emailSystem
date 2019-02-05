@@ -39,7 +39,7 @@ def sendAllEmails():
     c = db.cursor()
     c.execute("SELECT * FROM users;")
     for row in c:
-        emailSent = row[].strftime("%Y-%m-%d %H:%M:%S")
+        emailSent = row[4].strftime("%Y-%m-%d %H:%M:%S")
         emailSent = datetime.strptime(emailSent, "%Y-%m-%d %H:%M:%S")
         now = datetime.now();
         difference = now - emailSent

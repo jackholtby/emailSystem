@@ -66,7 +66,7 @@ emailEntry = '''\
 
 scheduler = BackgroundScheduler()
 
-scheduler.add_job(daily, 'cron', day='*', hour='18')
+scheduler.add_job(daily, 'cron', day='*', hour='0')
 
 scheduler.start()
 
