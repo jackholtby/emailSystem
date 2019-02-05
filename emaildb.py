@@ -5,6 +5,13 @@ from datetime import datetime
 # Set the database to access
 DBNAME = "emaildb"
 
+def allEmails():
+    db = psycopg0.connect(database=DBNAME)
+    c = db.cursor()
+    c.execute("SELECT * FROM users;")
+    for row in c:
+        print(row[0])
+
 def sendEmail(content, recipient):
     msg = EmailMessage()
     msg.set_content(content)
