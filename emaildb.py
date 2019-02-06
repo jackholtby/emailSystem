@@ -44,14 +44,18 @@ def sendAllEmails():
         now = datetime.now();
         difference = now - emailSent
         difference = difference.days
-        if row[3] == 'active' and difference > 0:
-            sendEmail(activeEmail,row[2], row[0])
-
-        elif row[3] == 'not responsive':
-
-            if difference == 0 or difference == 3:
-                sendEmail(notResponsiveEmail,row[2])
-                addEmail(row[0], notResponsiveEmail)
+        # If there is email sent for this user: we can assume that they are active.
+        if emailSent == '':
+            sendEmail(activeEmail, row[2], row[0])
+        # Else, if their status is active and they haven't had an email in the last day,
+        # then send an 'active' email.
+        elif row[3] == 'active' and difference > 0:
+            sendEmail(activeEmail, row[2], row[0])
+        # And last, if status is 'not responsive'
+        # AND the time since the last email is a multiple of three,
+        # then send a 'not responsive' email.
+        elif row[3] == 'not responsive' and (difference > 0 and difference % 3 == 0):
+            sendEmail(notResponsiveEmail,row[2], row[0])
 
 
 
