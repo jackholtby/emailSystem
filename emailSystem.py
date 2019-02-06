@@ -25,7 +25,6 @@ dashboardWrap = '''\
   <meta name="description" content="Email System Dashboard">
   <meta name="author" content="Jack Holtby">
 
-<!-- <link rel="stylesheet" href="main.css"> -->
 
 </head>
 
