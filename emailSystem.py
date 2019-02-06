@@ -12,7 +12,6 @@ app = Flask(__name__)
 def daily():
     updateStatus()
     sendAllEmails()
-    # refresh dashboard
 
 # The html for the dashboard for viewing the emails sent.
 dashboardWrap = '''\
@@ -26,7 +25,7 @@ dashboardWrap = '''\
   <meta name="description" content="Email System Dashboard">
   <meta name="author" content="Jack Holtby">
 
-<link rel="stylesheet" href="main.css?v=1.0">
+<!-- <link rel="stylesheet" href="main.css"> -->
 
 </head>
 
@@ -51,6 +50,11 @@ dashboardWrap = '''\
     </table>
 
   </div >
+
+    <p>
+        Reload page after midnight to see new email records.
+    </p>
+
 </body>
 </html>
 '''

@@ -39,23 +39,32 @@ def sendAllEmails():
     c = db.cursor()
     c.execute("SELECT * FROM users;")
     for row in c:
-        emailSent = row[4].strftime("%Y-%m-%d %H:%M:%S")
-        emailSent = datetime.strptime(emailSent, "%Y-%m-%d %H:%M:%S")
-        now = datetime.now();
-        difference = now - emailSent
-        difference = difference.days
-        # If there is email sent for this user: we can assume that they are active.
-        if emailSent == '':
+        emailSent = row[4]
+
+        # If there is no email sent for this user
+        # Then we can assume that they are active and send them an 'active' email.
+        if emailSent == None:
             sendEmail(activeEmail, row[2], row[0])
-        # Else, if their status is active and they haven't had an email in the last day,
-        # then send an 'active' email.
-        elif row[3] == 'active' and difference > 0:
-            sendEmail(activeEmail, row[2], row[0])
-        # And last, if status is 'not responsive'
-        # AND the time since the last email is a multiple of three,
-        # then send a 'not responsive' email.
-        elif row[3] == 'not responsive' and (difference > 0 and difference % 3 == 0):
-            sendEmail(notResponsiveEmail,row[2], row[0])
+
+        # Else, get the emailSent variable ready for use with other test.
+        else:
+
+            emailSent = row[4].strftime("%Y-%m-%d %H:%M:%S")
+            emailSent = datetime.strptime(emailSent, "%Y-%m-%d %H:%M:%S")
+            now = datetime.now();
+            difference = now - emailSent
+            difference = difference.days
+
+            # If their status is active and they haven't had an email in the last day,
+            # then send an 'active' email.
+            if row[3] == 'active' and difference > 0:
+                sendEmail(activeEmail, row[2], row[0])
+
+            # And last, if status is 'not responsive'
+            # AND the time since the last email is a multiple of three,
+            # then send a 'not responsive' email.
+            elif row[3] == 'not responsive' and (difference > 0 and difference % 3 == 0):
+                sendEmail(notResponsiveEmail,row[2], row[0])
 
 
 
@@ -70,6 +79,16 @@ def updateStatus():
     c = db.cursor()
     c.execute('SELECT * FROM users')
 
+    # Update for users who are not responsive and have not logged in for more than two days.
+    # MUST BE DONE BEFORE updateNotResponsive
+    updateInactive = '''
+    UPDATE users
+    SET status = 'inactive'
+    WHERE status = 'not responsive'
+    AND age(lastlogin::date) > '1 days';
+    '''
+
+    # Update statement for users who are active but have not logged in for more than 4 days
     updateNotResponsive = '''
     UPDATE users
     SET status = 'not responsive'
@@ -77,13 +96,7 @@ def updateStatus():
     AND age(lastlogin::date) > '4 days';
     '''
 
-    updateInactive = '''
-    UPDATE users
-    SET status = 'inactive'
-    WHERE status = 'not responsive'
-    AND age(lastlogin::date) > '2 days';
-    '''
-
+    # Update for users who are not responsive and have logged in within the last two days
     updateActive = '''
     UPDATE users
     SET status = 'active'
@@ -91,12 +104,11 @@ def updateStatus():
     AND age(lastlogin::date) < '2 days';
     '''
 
-    c.execute(updateNotResponsive)
     c.execute(updateInactive)
+    c.execute(updateNotResponsive)
     c.execute(updateActive)
     db.commit()
     db.close()
-
 
 # Get all the emails from the emails table
 def getEmails():
