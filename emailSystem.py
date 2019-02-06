@@ -68,18 +68,22 @@ emailEntry = '''\
 </tr>
 '''
 
+# Setup background scheduler that sends the emails and updates
+# the database every day at midnight.
 scheduler = BackgroundScheduler()
 
-scheduler.add_job(daily, 'cron', day='*', hour='0')
+scheduler.add_job(daily, 'cron', day='*', hour='17', minute='46', second='25')
 
 scheduler.start()
 
+# And here we go...
 @app.route('/', methods=['GET'])
 def main():
-    '''Main Dashboard Page.'''
+    # Generate the emails variable for inserting into the dashboard.
     emails = "".join(emailEntry % (user_id, email_content, date_sent) for user_id, email_content, date_sent in getEmails())
+    # Insert the emails into the html variable for display.
     html = dashboardWrap % emails
-    return html
+    return html # And Viola! ;)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8000)

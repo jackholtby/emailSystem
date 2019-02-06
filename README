@@ -1,0 +1,30 @@
+#!/bin/bash
+# To setup the database for the system to work please do the following.
+
+# Setup database
+su
+# enter root password. Alternatively just run the following with "sudo"
+
+apt install postgresql
+
+# make sure postgresql is running with: ps aux | grep postgresql
+# log in as the postgres user
+su - postgres
+
+# This step isn't really necessary, but if you want to access the database
+# and not have to use root, then it's useful.
+# create a user who has the same name as the user you use for your databasing,
+# For example, my linux user is jack, and I so I created a user called jack:
+createuser <INSERT CHOSEN USER NAME HERE>
+
+# Now login to the postgres account
+su - postgres
+create database emaildb
+
+# login as the user you created before. Log into the
+# directory with the server python file and the Create-database.txt
+# then run the following:
+psql -d emaildb -f Create-database.txt
+
+# And you should be set. Then run: python3 emailSystem.py
+# The server is live at 0.0.0.0:8000
