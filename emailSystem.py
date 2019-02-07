@@ -1,8 +1,8 @@
 # A daily email system.
+# Refers to emaildb.py for database accessing functions.
 
-from flask import Flask, request, redirect, url_for
+from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
 import time
 from emaildb import getEmails, updateStatus, sendAllEmails, sendEmail
 
@@ -21,16 +21,13 @@ dashboardWrap = '''\
 <head>
   <meta charset="utf-8">
 
-  <title></title>
+  <title>Admin Email Dashboard</title>
   <meta name="description" content="Email System Dashboard">
   <meta name="author" content="Jack Holtby">
-
 
 </head>
 
 <body>
-
-  <div id="flex-container">
 
     <h1>
       Admin Email Dashboard
@@ -47,8 +44,6 @@ dashboardWrap = '''\
     %s
 
     </table>
-
-  </div >
 
     <p>
         Reload page after midnight to see new email records.
@@ -71,11 +66,11 @@ emailEntry = '''\
 # the database every day at midnight.
 scheduler = BackgroundScheduler()
 
-scheduler.add_job(daily, 'cron', day='*', hour='17', minute='46', second='25')
+scheduler.add_job(daily, 'cron', day='*', hour='0')
 
 scheduler.start()
 
-# And here we go...
+# And here we go... (Main App)
 @app.route('/', methods=['GET'])
 def main():
     # Generate the emails variable for inserting into the dashboard.

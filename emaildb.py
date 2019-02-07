@@ -1,3 +1,6 @@
+# emaildb.py
+# All database accessing functions used by the emailSystem.py file
+
 import psycopg2, bleach
 from datetime import datetime
 from email.message import EmailMessage
@@ -16,9 +19,9 @@ notResponsiveEmail = "Dear Sir or Madam, your status is not responsive. Login so
 # The email from which to send all system emails.
 sendFromEmail = 'admin@cooladminemail.com'
 
-    # Function sendEmail()
-    # Paramaters: content (of email), recipient
-    # Sends an email to the provided email with the provided content.
+# Function sendEmail()
+# Parameters: content (of email), recipient
+# Sends an email to the provided email with the provided content.
 def sendEmail(content, recipient, user_id):
     msg = EmailMessage()
     msg.set_content(content)
@@ -37,7 +40,12 @@ def sendEmail(content, recipient, user_id):
     db.commit()
     db.close()
 
+
+# Function: sendAllEmails()
+# Parameters: None
+# Sends out emails based on user status found in database
 def sendAllEmails():
+    # Connect to the database
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute("SELECT * FROM users;")
@@ -61,16 +69,18 @@ def sendAllEmails():
             if row[3] == 'not responsive' and (difference > 0 and difference % 3 == 0):
                 sendEmail(notResponsiveEmail,row[2], row[0])
 
-# Update the status of all users in the users table
+# Function: updateStatus()
+# Parameters: None
+# Updates the status of all users in the users table
 def updateStatus():
     # Updates the state value for each user based on the following rules:
     # If user is 'Active' & last login was more than 4 days ago: Mark "Not Responsive"
     # If user is 'Not responsive' & last login was more than 2 days ago: Mark "Inactive"
     # If user is 'Not responsive' & last login was less than 2 days ago: Mark "Active"
 
+    # Connect to the database
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute('SELECT * FROM users')
 
     # Update for users who are not responsive and have not logged in for more than two days.
     # MUST BE DONE BEFORE updateNotResponsive
@@ -98,13 +108,15 @@ def updateStatus():
     '''
 
     # Update the databases based on the three set update statements
-    # c.execute(updateInactive)
-    # c.execute(updateNotResponsive)
-    # c.execute(updateActive)
+    c.execute(updateInactive)
+    c.execute(updateNotResponsive)
+    c.execute(updateActive)
     db.commit()
     db.close()
 
-# Return all the emails from the emails table
+# Function: getEmails
+# Parameters: None
+# Returns all the emails from the emails table ordered by date_sent
 def getEmails():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
