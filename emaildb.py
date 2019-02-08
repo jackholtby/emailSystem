@@ -7,23 +7,20 @@ from email.message import EmailMessage
 import smtplib
 import pandas
 
-usersTable = pandas.read_csv('users.csv', index_col='user_id')
-emailsTable = pandas.read_csv('emails.csv', index_col='message_id')
-
 # Set the database to access
 DBNAME = "emaildb"
 
-# Email to sent to active users
+# Email to be sent to active users
 activeEmail = "Dear Sir or Madam. Thank you for remaining active."
 
 # Email to be sent to not responsive users
 notResponsiveEmail = "Dear Sir or Madam. Your status is not responsive. Login soon to become active."
 
-# The email from which to send all system emails.
+# The email from which to send all emails.
 sendFromEmail = 'admin@cooladminemail.com'
 
 # Function sendEmail()
-# Parameters: content (of email), recipient
+# Parameters: content (of email), recipient email, recipient user_id
 # Sends an email to the provided email with the provided content.
 def sendEmail(content, recipient, user_id):
     msg = EmailMessage()
@@ -46,11 +43,11 @@ def sendEmail(content, recipient, user_id):
 
 # Function: sendAllEmails()
 # Parameters: None
-# Sends out emails based on user status found in database
+# Sends out emails based on user status found in database.
 # Note: This assumes that an email is sent at creation of each user.
 # Otherwise we'd get empty columns and unhappy code...
 def sendAllEmails():
-    # Connect to the database
+    # Connect to the database.
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute("SELECT * FROM users;")

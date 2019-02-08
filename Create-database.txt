@@ -28,4 +28,4 @@ INSERT INTO emails (user_id, email_content, date_sent) VALUES (2, 'Dear Sir or M
 INSERT INTO emails (user_id, email_content, date_sent) VALUES (3, 'Dear Sir or Madam. Your status is not responsive. Login soon to become active.', timestamp '2019-01-27 00:00:00');
 INSERT INTO emails (user_id, email_content, date_sent) VALUES (4, 'Dear Sir or Madam. Your status is not responsive. Login soon to become active.', timestamp '2019-02-01 00:00:00');
 INSERT INTO emails (user_id, email_content, date_sent) VALUES (5, 'Dear Sir or Madam. Thank you for remaining active.', timestamp '2019-02-06 00:00:00');
-INSERT INTO emails (user_id, email_content, date_sent) VALUES (6, 'Dear Sir or Madam. Your status is not responsive. Login soon to become active', timestamp '2019-02-03 00:00:00');
+INSERT INTO emails (user_id, email_content, date_sent) VALUES (6, 'Dear Sir or Madam. Your status is not responsive. Login soon to become active.', timestamp '2019-02-03 00:00:00');
