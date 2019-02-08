@@ -1,5 +1,6 @@
-# emaildb.py
-# All database accessing functions used by the emailSystem.py file
+# Name: emaildb
+# Author: Jack Holtby
+# Purpose: All database accessing functions used by the emailSystem.py file
 
 import psycopg2, bleach
 from datetime import datetime

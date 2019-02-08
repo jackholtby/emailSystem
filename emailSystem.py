@@ -1,4 +1,7 @@
-# A daily email system.
+# Name: Email  System
+# Author: Jack Holtby
+# Purpose: Send out daily emails to users based on their status.
+# Stores data in two tables, users and emails (see README for postgresql setup)
 # Refers to emaildb.py for database accessing functions.
 
 from flask import Flask
