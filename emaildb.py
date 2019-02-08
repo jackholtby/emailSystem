@@ -89,7 +89,7 @@ def updateStatus():
     UPDATE users
     SET status = 'inactive'
     WHERE status = 'not responsive'
-    AND age(lastlogin::date) > '1 days';
+    AND age(lastlogin::date) > '2 days';
     '''
 
     # Update statement for users who are active but have not logged in for more than 4 days
