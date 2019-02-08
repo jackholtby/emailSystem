@@ -69,7 +69,7 @@ emailEntry = '''\
 # the database every day at midnight.
 scheduler = BackgroundScheduler()
 
-scheduler.add_job(daily, 'cron', day='*', hour='8', minute='24')
+scheduler.add_job(daily, 'cron', day='*', hour='0')
 
 scheduler.start()
 
